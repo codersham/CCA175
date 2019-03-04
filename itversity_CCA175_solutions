@@ -190,9 +190,8 @@ map(lambda rec: Row(
 
 word_DF = sqlContext.createDataFrame(word)
 
-sqlContext.setConf('spark.sql.shuffle.partitions','8') # Not working to be re-worked
-
 word_DF. \
+coalesce(1). \
 write. \
 format('com.databricks.spark.avro'). \
 save('/user/codersham/problem5/solution/')
@@ -403,7 +402,7 @@ h1b_data_only_header = sc.parallelize([h1b_data_with_header.first()])
 
 h1b_data = h1b_data_with_header.subtract(h1b_data_only_header)
 
-h1b_data.saveAsTextFile('/user/codersham/problem9/solution/','org.apache.hadoop.io.compress.SnappyCodec')
+h1b_data.saveAsTextFile('/user/codersham/problem9/solution/',compressionCodecClass='org.apache.hadoop.io.compress.SnappyCodec')
 
 #10 : Instructions
 
